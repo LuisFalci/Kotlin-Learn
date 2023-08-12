@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 
 // Dentro dos parenteses de GuestDataBase, estão as propriedades da classe SQLiteOpenHelper que herdamos
 // Editamos para apenas o contexto vir por paramêtro, o resto setamos aqui mesmo
-class GuestDataBaseHelper(context: Context) : SQLiteOpenHelper(context, NAME, null, VERSION) {
+class GuestDataBase(context: Context) : SQLiteOpenHelper(context, NAME, null, VERSION) {
 
     /**
      * Método executado somente uma vez quando o acesso ao banco de dados é feito pela primeira vez

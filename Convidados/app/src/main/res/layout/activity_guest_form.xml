@@ -19,7 +19,7 @@
     <EditText
         android:id="@+id/edit_name"
         android:layout_width="0dp"
-        android:layo    ut_height="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_name" />
