@@ -20,4 +20,7 @@ class GuestRepository private constructor() {
             return repository
         }
     }
+    fun save(){
+        GuestDataBase(null)
+    }
 }
