@@ -73,4 +73,72 @@ class GuestRepository private constructor(context: Context) {
         }
 
     }
+
+    // Para deletar o convidado, eu preciso apenas do id então eu não passo o convidado inteiro como parâmetro
+    fun delete(id: Int): Boolean {
+        return try {
+            val db = guestDataBase.writableDatabase
+
+            val selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?"
+            val args = arrayOf(id.toString())
+
+            db.delete(DataBaseConstants.GUEST.TABLE_NAME, selection, args)
+            true
+        } catch (e: Exception) {
+            false
+        }
+
+    }
+
+    fun getAll(): List<GuestModel> {
+
+        // Declaramos uma lista do tipo Guest a fim de retorna-la ao final com todos os convidados
+        val list = mutableListOf<GuestModel>()
+
+        try {
+            val db = guestDataBase.readableDatabase
+
+            // Lista dos campos que quero exibir
+            val selection = arrayOf(
+                DataBaseConstants.GUEST.COLUMNS.ID,
+                DataBaseConstants.GUEST.COLUMNS.NAME,
+                DataBaseConstants.GUEST.COLUMNS.PRESENCE
+            )
+            // O cursor é como uma seta, que sempre aponta para o primeiro item da tabela no banco, e Lê linha a linha.
+            // O cursor consegue retornar dados como número de linhas (itens)
+            val cursor =
+                db.query(
+                    DataBaseConstants.GUEST.TABLE_NAME,
+                    selection,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
+                )
+
+            // Se o cursor existir (!= null) e possuir itens (count > 0)
+            if (cursor != null && cursor.count > 0) {
+                // Fica no loop enquanto o cursor estiver lendo/movendo linha a linha
+                while (cursor.moveToNext()) {
+                    // Pega a posição do vetor em que está o id
+                    val id =
+                        cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.ID))
+                    val name =
+                        cursor.getString(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.NAME))
+                    val presence =
+                        cursor.getInt(cursor.getColumnIndex(DataBaseConstants.GUEST.COLUMNS.PRESENCE))
+
+                    //Após pegar os dados, montamos o objeto convidado e adicionamos ele na lista
+                    list.add(GuestModel(id, name, presence == 1))
+                }
+            }
+            // Após usar o cursor, precisamos fechar ele
+            cursor.close()
+        } catch (e: Exception) {
+            return list
+        }
+        return list
+
+    }
 }
