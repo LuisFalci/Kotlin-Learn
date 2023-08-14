@@ -34,7 +34,7 @@ class GuestRepository private constructor(context: Context) {
     // A função insert espera um convidado para poder inseri-lo no banco
     // Aqui na repository é onde de fato realizamos as operações com os dados, neste caso, inserir no banco o usuário
     fun insert(guest: GuestModel): Boolean {
-    //mudamos a função para Boolean, então ela espera um retorno booleano
+        //mudamos a função para Boolean, então ela espera um retorno booleano
         return try {
             val db = guestDataBase.writableDatabase
 
@@ -51,6 +51,26 @@ class GuestRepository private constructor(context: Context) {
         }
     }
 
-    fun update() {
+    fun update(guest: GuestModel): Boolean {
+        return try {
+            val db = guestDataBase.writableDatabase
+
+            val presence = if (guest.presence) 1 else 0
+
+            val values = ContentValues()
+            values.put(DataBaseConstants.GUEST.COLUMNS.NAME, guest.name)
+            values.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, guest.presence)
+
+            // O selection interpola com o args. Neste caso, o update será feito quando o id for igual ao do args.
+            val selection = DataBaseConstants.GUEST.COLUMNS.ID + " = ?"
+            // O comando sql precisa ser feito com string, por isso convertemos o id para string
+            val args = arrayOf(guest.id.toString())
+
+            db.update(DataBaseConstants.GUEST.TABLE_NAME, values, selection, args)
+            true
+        } catch (e: Exception) {
+            false
+        }
+
     }
 }
