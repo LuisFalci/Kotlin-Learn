@@ -2,6 +2,7 @@ package com.example.convidados.repository
 
 import android.content.ContentValues
 import android.content.Context
+import com.example.convidados.constants.DataBaseConstants
 import com.example.convidados.model.GuestModel
 
 // O Repository é onde manipulamos os dados, o database serve apenas para fazer a conexão com o banco
@@ -31,16 +32,23 @@ class GuestRepository private constructor(context: Context) {
     }
 
     // A função insert espera um convidado para poder inseri-lo no banco
-    fun insert(guest: GuestModel) {
-        val db = guestDataBase.writableDatabase
+    // Aqui na repository é onde de fato realizamos as operações com os dados, neste caso, inserir no banco o usuário
+    fun insert(guest: GuestModel): Boolean {
+    //mudamos a função para Boolean, então ela espera um retorno booleano
+        return try {
+            val db = guestDataBase.writableDatabase
 
-        val presence = if (guest.presence) 1 else 0
+            val presence = if (guest.presence) 1 else 0
 
-        val values = ContentValues()
-        values.put("name", guest.name)
-        values.put("presence", guest.presence)
+            val values = ContentValues()
+            values.put(DataBaseConstants.GUEST.COLUMNS.NAME, guest.name)
+            values.put(DataBaseConstants.GUEST.COLUMNS.PRESENCE, guest.presence)
 
-        db.insert("Guest", null, values)
+            db.insert(DataBaseConstants.GUEST.TABLE_NAME, null, values)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     fun update() {

@@ -3,6 +3,7 @@ package com.example.convidados.repository
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.example.convidados.constants.DataBaseConstants
 
 // Dentro dos parenteses de GuestDataBase, estão as propriedades da classe SQLiteOpenHelper que herdamos
 // Editamos para apenas o contexto vir por paramêtro, o resto setamos aqui mesmo
@@ -12,7 +13,8 @@ class GuestDataBase(context: Context) : SQLiteOpenHelper(context, NAME, null, VE
      * Método executado somente uma vez quando o acesso ao banco de dados é feito pela primeira vez
      */
     override fun onCreate(db: SQLiteDatabase) {
-//        db.execSQL(CREATE_TABLE_GUEST)
+        db.execSQL(CREATE_TABLE_GUEST)
+
     }
 
     /**
@@ -25,11 +27,11 @@ class GuestDataBase(context: Context) : SQLiteOpenHelper(context, NAME, null, VE
         private const val VERSION = 1
         private const val NAME = "Convidados.db"
 
-//        private const val CREATE_TABLE_GUEST =
-//            ("create table " + DataBaseConstants.GUEST.TABLE_NAME + " ("
-//                    + DataBaseConstants.GUEST.COLUMNS.ID + " integer primary key autoincrement, "
-//                    + DataBaseConstants.GUEST.COLUMNS.NAME + " text, "
-//                    + DataBaseConstants.GUEST.COLUMNS.PRESENCE + " integer);")
+        private const val CREATE_TABLE_GUEST =
+            ("create table " + DataBaseConstants.GUEST.TABLE_NAME + " ("
+                    + DataBaseConstants.GUEST.COLUMNS.ID + " integer primary key autoincrement, "
+                    + DataBaseConstants.GUEST.COLUMNS.NAME + " text, "
+                    + DataBaseConstants.GUEST.COLUMNS.PRESENCE + " integer);")
     }
 
 }

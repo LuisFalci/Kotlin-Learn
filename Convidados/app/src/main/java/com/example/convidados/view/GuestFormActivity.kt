@@ -6,13 +6,14 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.example.convidados.R
 import com.example.convidados.databinding.ActivityGuestFormBinding
+import com.example.convidados.model.GuestModel
 import com.example.convidados.viewmodel.GuestFormViewModel
 
-class GuestFormActivity : AppCompatActivity(),View.OnClickListener {
+class GuestFormActivity : AppCompatActivity(), View.OnClickListener {
 
     // lateinit inicializa a variável futuramente, assim não tem necessidade de passar valor
     private lateinit var binding: ActivityGuestFormBinding
-    private lateinit var  viewModel: GuestFormViewModel
+    private lateinit var viewModel: GuestFormViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,8 +28,13 @@ class GuestFormActivity : AppCompatActivity(),View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        if(v.id == R.id.button_save){
-        //val nome =
+        if (v.id == R.id.button_save) {
+            // Pego os valores via interface, guardo em variáveis temporárias e envio para viewModel
+            val name = binding.editName.text.toString()
+            val presence = binding.radioPresence.isChecked
+
+            val model = GuestModel(0, name, presence)
+            viewModel.insert(model)
 
         }
     }
