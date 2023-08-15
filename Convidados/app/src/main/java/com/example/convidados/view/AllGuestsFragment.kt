@@ -18,17 +18,18 @@ class AllGuestsFragment : Fragment() {
     private var _binding: FragmentAllGuestsBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: AllGuestsViewModel
+    private var adapter = GuestsAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         viewModel = ViewModelProvider(this).get(AllGuestsViewModel::class.java)
         _binding = FragmentAllGuestsBinding.inflate(inflater, container, false)
 
-        //Layout da recyclerview 
+        //Layout da recyclerview
         binding.recyclerAllGuests.layoutManager = LinearLayoutManager(context)
 
         //Adapter da recyclerview
-        binding.recyclerAllGuests.adapter = GuestsAdapter()
+        binding.recyclerAllGuests.adapter = adapter
 
         viewModel.getAll()
         observe()
@@ -43,8 +44,8 @@ class AllGuestsFragment : Fragment() {
     private fun observe() {
         //observe fica observando a variável "guests" que passamos para ele e quando retornar a listagem, executamos uma ação
         viewModel.guests.observe(viewLifecycleOwner) {
-            var s = ""
-            //lista de convidados
+            // it é igual a lista, passamos para o adapter para exibir a lista
+            adapter.updatedGuests(it)
         }
     }
 }
