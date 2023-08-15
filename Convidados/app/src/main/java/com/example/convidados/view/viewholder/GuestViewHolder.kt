@@ -1,5 +1,6 @@
 package com.example.convidados.view.viewholder
 
+import android.app.AlertDialog
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -20,8 +21,16 @@ class GuestViewHolder(private val bind: RowGuestBinding, private val listener: O
         }
 
         bind.textName.setOnLongClickListener {
-            listener.onDelete(guest.id)
+            AlertDialog.Builder(itemView.context)
+                .setTitle("Remoção de convidado")
+                .setMessage("Tem certeza que deseja remover?")
+                .setPositiveButton("Sim") { dialog, wich ->
+                    listener.onDelete(guest.id)
+                }.setNegativeButton("Não", null)
+                .create()
+                .show()
+
             true
-             }
+        }
     }
 }
