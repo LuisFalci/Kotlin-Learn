@@ -47,7 +47,6 @@ class AllGuestsFragment : Fragment() {
 
             override fun onDelete(id: Int) {
                 viewModel.delete(id)
-                viewModel.getAll()
             }
 
         }
@@ -57,6 +56,12 @@ class AllGuestsFragment : Fragment() {
         viewModel.getAll()
         observe()
         return binding.root
+    }
+
+    //onResume garante que a lista seja atualizada quando a view voltar do segundo plano
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAll()
     }
 
     override fun onDestroyView() {
