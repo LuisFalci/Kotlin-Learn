@@ -20,6 +20,7 @@ class GuestViewHolder(private val bind: RowGuestBinding, private val listener: O
             listener.onClick(guest.id)
         }
 
+        //Função para abrir uma janela de confirmação, se sim deleta o convidado, se não retorna null
         bind.textName.setOnLongClickListener {
             AlertDialog.Builder(itemView.context)
                 .setTitle("Remoção de convidado")

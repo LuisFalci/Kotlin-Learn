@@ -33,24 +33,25 @@ class AllGuestsFragment : Fragment() {
         //Adapter da recyclerview
         binding.recyclerGuests.adapter = adapter
 
-        //Classe anônima, implementamos a interface
-        val lisener = object : OnGuestListener {
+        //Implementamos a interface OnGuestListener, que possui as funções onClick e onDelete
+        //Cada linha da lista é criada na GuestViewHolder, e lá é onde disparamos o evento de clicar/deletar passando o id do convidado
+        val listener = object : OnGuestListener {
             override fun onClick(id: Int) {
                 // GuestFormActivity é a tela de criação/edição
                 val intent = Intent(context, GuestFormActivity::class.java)
                 val bundle = Bundle()
                 bundle.putInt(DataBaseConstants.GUEST.ID, id)
                 intent.putExtras(bundle)
+                //A tela GuestFormActivity é aberta, permitindo que o usuário edite as informações do convidado.
                 startActivity(intent)
             }
-
             override fun onDelete(id: Int) {
                 viewModel.delete(id)
             }
 
         }
 
-        adapter.attachListener(lisener)
+        adapter.attachListener(listener)
 
         viewModel.getAll()
         observe()
